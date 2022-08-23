@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div id="logged"></div>
+  <script>
+    if(localStorage.getItem('login')=='true'){
+      var data=JSON.parse(localStorage.getItem('jwt'))
+      var name=data['given_name']
+      document.getElementById('logged').innerHTML=`<h1>Hello ${name}`
+    }
+    function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return jsonPayload;
+};
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + parseJwt(response.credential));
+      localStorage.setItem("login",true)
+      localStorage.setItem("jwt", parseJwt(response.credential))
+      //xhr.send(JSON.stringify({'jwt':response.credential}));
+      //window.location.href=window.location.href+'upload'
+    }
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "21450313655-n5peiglp47lj8hneoo47a5d5c3s2r8ag.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" }  // customization attributes
+      );
+      //google.accounts.id.prompt(); // also display the One Tap dialog
+    }
+  </script>
+</body>
+</html>
