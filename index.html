@@ -15,6 +15,9 @@
       var name=data['given_name']
       document.getElementById('logged').innerHTML=`<h1>Hello ${name}`
     }
+    else{
+      document.getElementById('logged').innerHTML=`<div id="signInDiv"></div>`
+    }
     function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -28,6 +31,7 @@
       console.log("Encoded JWT ID token: " + parseJwt(response.credential));
       localStorage.setItem("login",true)
       localStorage.setItem("jwt", parseJwt(response.credential))
+      location.reload();
       //xhr.send(JSON.stringify({'jwt':response.credential}));
       //window.location.href=window.location.href+'upload'
     }
@@ -40,8 +44,9 @@
         document.getElementById("buttonDiv"),
         { theme: "outline", size: "large" }  // customization attributes
       );
-      //google.accounts.id.prompt(); // also display the One Tap dialog
-    }
+      if(localStorage.getItem('login')!='true'){
+      google.accounts.id.prompt(); // also display the One Tap dialog
+    }}
   </script>
 </body>
 </html>
