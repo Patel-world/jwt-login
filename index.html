@@ -10,10 +10,14 @@
 <body>
   <div id="logged"></div>
   <script>
+    function logout(){
+        localStorage.clear()
+        window.location.reload()
+    }
     if(localStorage.getItem('login')=='true'){
       var data=JSON.parse(localStorage.getItem('jwt'))
       var name=data['given_name']
-      document.getElementById('logged').innerHTML=`<h1>Hello ${name}`
+      document.getElementById('logged').innerHTML=`<h1>Hello ${name}<button onClick="logout()">logout</logout>`
     }
     else{
       document.getElementById('logged').innerHTML=`<div id="signInDiv"></div>`
