@@ -34,6 +34,7 @@
     function handleCredentialResponse(response) {
       console.log("Encoded JWT ID token: " + parseJwt(response.credential));
       localStorage.setItem("login",true)
+      console.log(response)
       localStorage.setItem("jwt", parseJwt(response.credential))
       location.reload();
       //xhr.send(JSON.stringify({'jwt':response.credential}));
