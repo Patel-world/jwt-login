@@ -36,7 +36,7 @@
       localStorage.setItem("login",true)
       console.log(response)
       localStorage.setItem("jwt", parseJwt(response.credential))
-      location.reload();
+      //location.reload();
       //xhr.send(JSON.stringify({'jwt':response.credential}));
       //window.location.href=window.location.href+'upload'
     }
